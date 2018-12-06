@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dlh.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.dlh.po.User" >
+    <id column="userId" property="userId" jdbcType="INTEGER" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="userPwd" property="userPwd" jdbcType="VARCHAR" />
+    <result column="userNick" property="userNick" jdbcType="VARCHAR" />
+    <result column="card_id" property="cardId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userId, userName, userPwd, userNick, card_id
+  </sql>
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where userId = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from user
+    where userId = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dlh.po.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="userName != null" >
+        userName,
+      </if>
+      <if test="userPwd != null" >
+        userPwd,
+      </if>
+      <if test="userNick != null" >
+        userNick,
+      </if>
+      <if test="cardId != null" >
+        card_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null" >
+        #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userNick != null" >
+        #{userNick,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null" >
+        #{cardId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.dlh.po.User" >
+    update user
+    <set >
+      <if test="userName != null" >
+        userName = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null" >
+        userPwd = #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userNick != null" >
+        userNick = #{userNick,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null" >
+        card_id = #{cardId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where userId = #{userId,jdbcType=INTEGER}
+  </update>
+  <select id="queryForPage" resultMap="BaseResultMap">
+    select * from user
+  </select>
+</mapper>
